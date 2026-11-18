@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FAF8F5">
+  <title>Clock · Julia Krylova</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <!-- Brand mark: seven static tiles of the mosaic -->
+    <div class="mark" aria-hidden="true">
+      <span style="background: rgba(var(--aubergine-rgb), 1)"></span>
+      <span style="background: rgba(var(--aubergine-rgb), 0.45)"></span>
+      <span style="background: rgba(var(--aubergine-rgb), 0.8)"></span>
+      <span style="background: rgba(var(--aubergine-rgb), 0.3)"></span>
+      <span style="background: var(--champagne)"></span>
+      <span></span>
+      <span style="background: rgba(var(--aubergine-rgb), 0.7)"></span>
+      <span></span>
+      <span style="background: rgba(var(--aubergine-rgb), 0.2)"></span>
+    </div>
+    <a class="btn btn--nav" href="timer.html">Timer</a>
+  </header>
+
+  <main class="stage">
+    <p class="clock__time" role="group" aria-label="Current time in Amsterdam">
+      <span class="clock__sec clock__sec--ghost" aria-hidden="true">00</span>
+      <span id="hm">--:--</span>
+      <span class="clock__sec" id="sec">--</span>
+    </p>
+    <p class="clock__zone" id="zone">Central European Time · CET</p>
+    <p class="clock__date" id="date">&nbsp;</p>
+  </main>
+
+  <footer class="foot">Julia Krylova</footer>
+
+  <script src="clock.js"></script>
+</body>
+</html>

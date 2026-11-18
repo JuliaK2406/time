@@ -1,0 +1,406 @@
+/* Webinar clock and timer for Julia Krylova. One stylesheet for both screens.
+   The tokens block is copied whole from mosaic-snapshot/src/styles/tokens.css. */
+
+/* Fonts served by the site itself (fonts/, SIL Open Font License) */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url(fonts/inter-latin.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(fonts/lora-latin.woff2) format('woff2');
+}
+
+:root {
+  /* Brand colours from the Mosaic brand brief */
+  --aubergine: #5E1A4D;        /* mosaic tiles */
+  --aubergine-rgb: 94, 26, 77; /* same colour for rgba() tile opacities */
+  --navy: #1E2A47;             /* all text, the selected duration */
+  --porcelain: #FAF8F5;        /* page background */
+  --gold: #B89B5E;             /* buttons, focus frame and thin lines only */
+  --warm-grey: #E4E2DD;        /* dividers */
+  --champagne: #EFDCAC;        /* one or two tiles of the mosaic */
+  --champagne-rgb: 239, 220, 172;
+  --text-muted: #545B70;       /* secondary text, 6.4:1 on porcelain */
+  --control-border: #8C8577;   /* borders of buttons and fields, 3.4:1 */
+  --on-aubergine: #F3E9EF;     /* secondary text on aubergine */
+  --white: #FFFFFF;            /* background of controls */
+
+  /* Fonts */
+  --font-heading: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Sizes */
+  --column-max: 440px;
+  --gutter: 24px;
+  --size-display: 34px;
+  --size-heading: 28px;
+  --size-heading-sm: 24px;
+  --size-body: 16px;
+  --rate-height: 56px;
+  --button-height: 54px;
+  --input-height: 50px;
+  --touch-min: 44px;
+  --radius: 10px;
+  --radius-lg: 12px;
+  --radius-tile: 6px;
+  --tile-gap: 6px;
+  --mosaic-scale: 1;
+}
+
+/* ---------- page ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--porcelain);
+}
+
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--porcelain);
+  color: var(--navy);
+  font-family: var(--font-body);
+  font-size: var(--size-body);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+p {
+  margin: 0;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: clamp(16px, 2.2vw, 40px) clamp(16px, 2.6vw, 48px) 0;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 0 var(--gutter);
+  text-align: center;
+}
+
+.foot {
+  padding: 10px var(--gutter) 16px;
+  font-size: 13px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 104px;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--navy);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: var(--navy);
+}
+
+.btn--primary {
+  border-color: var(--gold);
+  background: var(--gold);
+}
+
+.btn--primary:hover {
+  border-color: var(--gold);
+  filter: brightness(0.96);
+}
+
+.btn--nav {
+  border-color: var(--gold);
+  background: transparent;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+  filter: none;
+}
+
+.btn:focus-visible,
+.chip:focus-visible,
+.custom__input:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ---------- brand mark: seven static tiles in the corner of the clock ---------- */
+
+.mark {
+  --mark-tile: clamp(12px, 1.5vw, 28px);
+  display: grid;
+  grid-template-columns: repeat(3, var(--mark-tile));
+  grid-auto-rows: var(--mark-tile);
+  gap: calc(var(--mark-tile) * 0.22);
+}
+
+.mark span {
+  border-radius: calc(var(--mark-tile) * 0.2);
+}
+
+/* ---------- screen 1: clock ---------- */
+
+.clock__time {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(88px, min(20.5vw, 50vh), 640px);
+  line-height: 1;
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+}
+
+.clock__sec {
+  margin-left: 0.18em;
+  font-size: 0.3em;
+  color: var(--text-muted);
+}
+
+/* Invisible copy of the seconds on the left, so the hours and minutes sit on the centre line. */
+.clock__sec--ghost {
+  margin: 0 0.18em 0 0;
+  visibility: hidden;
+}
+
+.clock__zone {
+  margin-top: clamp(8px, 2.4vh, 32px);
+  font-size: clamp(16px, min(1.9vw, 3.6vh), 40px);
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+}
+
+.clock__date {
+  margin-top: clamp(4px, 1.2vh, 14px);
+  font-size: clamp(18px, min(2.3vw, 4.4vh), 48px);
+  font-weight: 500;
+}
+
+/* ---------- screen 2: timer ---------- */
+
+.stage--timer {
+  gap: clamp(12px, 2.4vh, 28px);
+}
+
+/* About 60% of the window width (20.5vw). In low windows the height holds it instead:
+   what is left of the window after the mosaic, the gaps and the finish line (30vh)
+   and the fixed rows of the header, the controls and the footer (250px). */
+.timer__digits {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(72px, min(20.5vw, calc(70vh - 250px)), 520px);
+  line-height: 0.95;
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+}
+
+.mosaic {
+  --tile-h: clamp(12px, 3.3vh, 44px);
+  --tile-w: min(calc(var(--tile-h) * 2.4), 10vw);
+  --gap: clamp(4px, 0.75vh, 10px);
+  display: grid;
+  grid-template-columns: repeat(8, var(--tile-w));
+  grid-auto-rows: var(--tile-h);
+  gap: var(--gap);
+}
+
+/* A tile comes in softly; on reset it leaves at once (no transition without .is-on). */
+.tile {
+  border-radius: var(--radius-tile);
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.tile.is-on {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* The slot keeps its height all the time, so nothing moves when the time is up. */
+.finish {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 1.2vh, 14px);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.finish__line {
+  width: clamp(72px, 10vw, 200px);
+  height: 2px;
+  background: var(--gold);
+}
+
+.finish__text {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(22px, 3.6vh, 44px);
+  line-height: 1.1;
+}
+
+[data-state='done'] .finish {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease-out;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.controls__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 28px;
+}
+
+.controls__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.controls__label {
+  margin-right: 4px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.chip {
+  min-width: 46px;
+  height: 46px;
+  padding: 0 10px;
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--navy);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--navy);
+}
+
+.chip[aria-pressed='true'] {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: var(--porcelain);
+}
+
+.custom__input {
+  width: 96px;
+  height: 46px;
+  padding: 0 10px;
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--navy);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.custom__input::placeholder {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.controls__hint {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ---------- full screen: only the digits and the mosaic ---------- */
+
+.is-fullscreen .top,
+.is-fullscreen .controls,
+.is-fullscreen .foot {
+  display: none;
+}
+
+.is-fullscreen body {
+  grid-template-rows: 1fr;
+}
+
+.is-fullscreen .stage--timer {
+  gap: clamp(16px, 3.4vh, 44px);
+}
+
+.is-fullscreen .timer__digits {
+  font-size: clamp(96px, min(20.5vw, 46vh), 640px);
+}
+
+.is-fullscreen .mosaic {
+  --tile-h: clamp(14px, 4.6vh, 60px);
+}
+
+.is-fullscreen .finish__text {
+  font-size: clamp(24px, 4.6vh, 56px);
+}
+
+/* ---------- small windows and reduced motion ---------- */
+
+@media (max-width: 560px) {
+  .btn {
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile.is-on,
+  [data-state='done'] .finish {
+    transition: none;
+  }
+}
