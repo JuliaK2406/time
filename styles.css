@@ -221,24 +221,25 @@ p {
 }
 
 /* About 60% of the window width (20.5vw). In low windows the height holds it instead:
-   what is left of the window after the mosaic, the gaps and the finish line (30vh)
+   what is left of the window after the mosaic, the gaps and the finish line (37vh)
    and the fixed rows of the header, the controls and the footer (250px). */
 .timer__digits {
   font-family: var(--font-heading);
   font-weight: 500;
-  font-size: clamp(72px, min(20.5vw, calc(70vh - 250px)), 520px);
+  font-size: clamp(72px, min(20.5vw, calc(64.5vh - 250px)), 520px);
   line-height: 0.95;
   font-variant-numeric: lining-nums tabular-nums;
   white-space: nowrap;
 }
 
+/* Square tiles, as in a mosaic. The side follows the window height; 9vw keeps all
+   eight columns inside a narrow window. */
 .mosaic {
-  --tile-h: clamp(12px, 3.3vh, 44px);
-  --tile-w: min(calc(var(--tile-h) * 2.4), 10vw);
+  --tile: min(clamp(14px, 4.4vh, 56px), 9vw);
   --gap: clamp(4px, 0.75vh, 10px);
   display: grid;
-  grid-template-columns: repeat(8, var(--tile-w));
-  grid-auto-rows: var(--tile-h);
+  grid-template-columns: repeat(8, var(--tile));
+  grid-auto-rows: var(--tile);
   gap: var(--gap);
 }
 
@@ -383,7 +384,7 @@ p {
 }
 
 .is-fullscreen .mosaic {
-  --tile-h: clamp(14px, 4.6vh, 60px);
+  --tile: min(clamp(16px, 6vh, 84px), 9vw);
 }
 
 .is-fullscreen .finish__text {
